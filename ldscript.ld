@@ -5,7 +5,7 @@ ENTRY(_start)
 SECTIONS
 {
   /* Read-only sections, merged into text segment: */
-  . = 0x80000040;
+  . = TEXT_BASE;
   .text      :
   {
     *(.text)
@@ -75,7 +75,7 @@ so
    *(.bss)
    *(COMMON)
   }
-  . = _start + 32768;
+  . = _start + SIZE;
   __end = . ;
   .mach : { mach.o }
   .xmdt : { xmdt.o }
@@ -83,4 +83,3 @@ so
 
   PROVIDE (__end = .);
 }
-

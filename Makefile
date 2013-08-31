@@ -9,14 +9,13 @@ CFLAGS		= -mcpu=cortex-a8 -std=c99 -fno-builtin -Os -fPIC -Wall -Werror -Wno-err
 CPPFLAGS	= -Iinclude -D__LITTLE_ENDIAN__ -DTEXT_BASE=$(TEXT_BASE) -DBUILD_STYLE=\"$(BUILD_STYLE)\" \
 		  -DBUILD_TAG=\"$(BUILD_TAG)\"
 ASFLAGS		= -mcpu=cortex-a8 -DTEXT_BASE=$(TEXT_BASE) -D__ASSEMBLY__
-LDFLAGS		= -nostdlib -Wl,-Tldscript.ld
+LDFLAGS		= -Xlinker --defsym=TEXT_BASE=$(TEXT_BASE) -Xlinker --defsym=SIZE=$(SIZE) -nostdlib -Wl,-Tldscript.ld
 TEXT_BASE	= 0x80000040
 CROSS		= arm-none-eabi-
 CC		= $(CROSS)gcc
 AS		= $(CROSS)gcc
 OBJCOPY		= $(CROSS)objcopy
 TARGET		= SampleBooter.elf
-
 SIZE		= 32768
 
 all: $(TARGET) $(OBJECTS)
