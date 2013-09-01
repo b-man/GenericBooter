@@ -1,3 +1,5 @@
+-include config.mk
+
 BUILD_TAG	= $(shell git tag -l | tail -n 1)
 BUILD_STYLE	= DEVELOPMENT
 
@@ -5,22 +7,18 @@ OBJECTS		= start.o printf.o bcopy.o bzero.o libc_stub.o tlsf.o \
 	device_tree.o xml.o mach.o xmdt.o strcmp.o strchr.o strncmp.o strlen.o \
 	malloc.o main.o debug.o bootx.o image3.o macho_loader.o memory_region.o \
 	json_parser.o semihost.o
-CFLAGS		= -mcpu=cortex-a8 -std=c99 -fno-builtin -Os -fPIC -Wall -Werror -Wno-error=multichar
+CFLAGS		= -mcpu=$(MACHINE_CPU) -std=c99 -fno-builtin -Os -fPIC -Wall -Werror -Wno-error=multichar
 CPPFLAGS	= -Iinclude -D__LITTLE_ENDIAN__ -DTEXT_BASE=$(TEXT_BASE) -DBUILD_STYLE=\"$(BUILD_STYLE)\" \
 		  -DBUILD_TAG=\"$(BUILD_TAG)\" -DPLATFORM=\"$(PLATFORM)\" -DMACHINE_ID=$(MACHINE_ID)
-ASFLAGS		= -mcpu=cortex-a8 -DTEXT_BASE=$(TEXT_BASE) -D__ASSEMBLY__
+ASFLAGS		= -mcpu=$(MACHINE_CPU) -DTEXT_BASE=$(TEXT_BASE) -D__ASSEMBLY__
 LDFLAGS		= -Xlinker --defsym=TEXT_BASE=$(TEXT_BASE) -Xlinker --defsym=SIZE=$(SIZE) -nostdlib -Wl,-Tldscript.ld
-TEXT_BASE	= 0x80000040
+TEXT_BASE	= $(LOADER_BASE)
 CROSS		= arm-none-eabi-
 CC		= $(CROSS)gcc
 AS		= $(CROSS)gcc
 OBJCOPY		= $(CROSS)objcopy
 TARGET		= SampleBooter.elf
 SIZE		= 40960
-
-# Platform-dependent config
-PLATFORM	= "ARM RealView"
-MACHINE_ID	= 1897
 
 all: $(TARGET) $(OBJECTS)
 
