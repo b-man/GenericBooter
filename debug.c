@@ -30,7 +30,7 @@
 #include "genboot.h"
 #include <stdarg.h>
 
-extern void _semihost_write_char(int c);
+extern void _semihost_write_char(char c);
 
 static int inited_printf = 1;
 
