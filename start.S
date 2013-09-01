@@ -68,11 +68,11 @@ EnterARM(locore_halt_system)
 EnterARM(locore_jump_to)
     cpsid   if, #0x13
 
-#ifdef CORTEX_A8
-    /* Disable L2 cache */
     mov     r9, r0
     mov     r10, r1
 
+#ifdef CORTEX_A8
+    /* Disable L2 cache */
     mrc     p15, 0, r0, c1, c0, 1   /* read Auxiliary Control Register */
     bic     r0, r0, #0x00000002     /* disable L2 cache */
     mcr     p15, 0, r0, c1, c0, 1   /* store Auxiliary Control Register */
