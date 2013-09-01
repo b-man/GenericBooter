@@ -27,7 +27,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /*
- * PE semihosting bringup interface
+ * semihosting bringup interface
  */
 
 #include "asm_help.h"
