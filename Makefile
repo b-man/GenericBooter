@@ -20,6 +20,13 @@ OBJCOPY		= $(CROSS)objcopy
 TARGET		= SampleBooter.elf
 SIZE		= 40960
 
+ifeq ($(MACHINE_CPU),cortex-a8)
+	CPPFLAGS += -DCORTEX_A8
+endif
+ifeq ($(MACHINE_CPU),cortex-a9)
+	CPPFLAGS += -DCORTEX_A9
+endif
+
 all: $(TARGET) $(OBJECTS)
 
 mach.o: mach.img3

@@ -68,6 +68,7 @@ EnterARM(locore_halt_system)
 EnterARM(locore_jump_to)
     cpsid   if, #0x13
 
+#ifdef CORTEX_A8
     /* Disable L2 cache */
     mov     r9, r0
     mov     r10, r1
@@ -75,10 +76,11 @@ EnterARM(locore_jump_to)
     mrc     p15, 0, r0, c1, c0, 1   /* read Auxiliary Control Register */
     bic     r0, r0, #0x00000002     /* disable L2 cache */
     mcr     p15, 0, r0, c1, c0, 1   /* store Auxiliary Control Register */
+#endif
 
     /* Disable caching entirely. */
     mrc     p15, 0, r0, c1, c0, 0
-    bic     r0, r0, #0x00002300 
+    bic     r0, r0, #0x00002300
     bic     r0, r0, #0x00000005
     bic     r0, r0, #0x00001000
     bic     r0, r0, #(1 << 2)
@@ -116,7 +118,7 @@ EnterARM(locore_jump_to)
     /* Point of no return */
     mov     lr, r9
     mov     r0, r1
-    bx      lr    
+    bx      lr
 deadloop:
     b       .
 
