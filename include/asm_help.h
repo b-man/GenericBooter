@@ -59,9 +59,9 @@
     .align  4                       ;   \
     _##function:                    ;   \
 
-#define EnterThumb(function)        ;   \
+#define EnterThumb(function)            \
     .code 16                        ;   \
-    .thumb_func _ ##function        ;   \
+    .thumb_func                     ;   \
     .globl _ ##function             ;   \
     .align  4                       ;   \
     _##function:                    ;   \

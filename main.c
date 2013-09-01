@@ -111,14 +111,14 @@ corestart_main(uint32_t __unused, uint32_t machine_type, struct atag *atags)
     /*
      * Verify machine type.
      */
-    if (machine_type != MACH_TYPE_REALVIEW_PBA8) {
+    if (machine_type != MACH_TYPE_MACHINE_ID) {
         printf("********************************\n"
                "*                              *\n"
                "*  This unit is not supported  *\n"
                "*                              *\n"
                "********************************\n");
         printf("Machine type is %d, expected %d\n", machine_type,
-               MACH_TYPE_REALVIEW_PBA8);
+               MACH_TYPE_MACHINE_ID);
         _locore_halt_system();
     }
 
@@ -127,7 +127,7 @@ corestart_main(uint32_t __unused, uint32_t machine_type, struct atag *atags)
      */
     printf("=======================================\n"
            "::\n"
-           ":: GenericBooter for ARM RealView, Copyright 2013, winocm.\n"
+           ":: GenericBooter for " MACH_TYPE_PLATFORM_NAME ", Copyright 2013, winocm.\n"
            "::\n"
            "::\tBUILD_TAG: %s\n"
            "::\n"

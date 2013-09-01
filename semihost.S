@@ -26,86 +26,33 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+/*
+ * PE semihosting bringup interface
+ */
 
-#include "genboot.h"
-#include <stdarg.h>
+#include "asm_help.h"
 
-extern void _semihost_write_char(int c);
+.code 16
+.text
+.align 4
 
-static int inited_printf = 1;
+/*
+ * data buffer
+ */
+.globl _semihost_buffer_ptr
+_semihost_buffer:
+    .space (8192), 0
+_semihost_buffer_ptr:
+    .long _semihost_buffer
 
 /**
- * debug_putc
+ * semihost_write_char
  *
- * Put a character to the console.
+ * Writes character output to debugger standard out.
  */
-void debug_putchar(int c)
-{
-    if (!inited_printf)
-        return;
-
-    if (c == '\n')
-        debug_putchar('\r');
-
-    _semihost_write_char(c);
-}
-
-/**
- * debug_getc
- *
- * Get a character from the console.
- */
-int debug_getchar(void)
-{
-    return 'X';
-}
-
-static void putc_wrapper(void *p, char c)
-{
-    debug_putchar(c);
-}
-
-/**
- * init_debug
- *
- * Start debugging subsystems.
- */
-void init_debug(void)
-{
-    init_printf(NULL, putc_wrapper);
-    printf("debug_init()\n");
-}
-
-void __assert_func(const char *file, int line, const char *method,
-                   const char *expression)
-{
-    panic("Assertion failed in file %s, line %d. (%s)\n",
-          file, line, expression);
-    while (1) ;
-}
-
-/**
- * panic
- *
- * Halt the system and explain why.
- */
-#undef panic
-void panic(const char *panicStr, ...)
-{
-    void *caller = __builtin_return_address(0);
-
-    /* Prologue */
-    printf("panic(caller 0x%08x): ", caller);
-
-    /* Epilogue */
-    va_list valist;
-    va_start(valist, panicStr);
-    vprintf((char *)panicStr, valist);
-    va_end(valist);
-
-    /* We are hanging here. */
-    printf("\npanic: we are hanging here...\n");
-
-    /* Halt */
-    _locore_halt_system();
-}
+EnterThumb(semihost_write_char)
+    ldr     r1, =_semihost_buffer_ptr
+    strb    r0, [r1]
+    mov     r0, #0x03       // SYS_WRITEC
+    svc     0xab
+    bx      lr

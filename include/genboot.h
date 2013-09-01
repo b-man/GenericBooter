@@ -66,7 +66,8 @@ extern void _locore_halt_system(void);
 	(panic)(# ex "@" PANIC_LOCATION, ## __VA_ARGS__)
 
 /* Machine. */
-#define MACH_TYPE_REALVIEW_PBA8		1897
+#define MACH_TYPE_MACHINE_ID	MACHINE_ID
+#define MACH_TYPE_PLATFORM_NAME	PLATFORM
 
 /* BSD functions */
 extern void bzero(void *block, size_t nbytes);
