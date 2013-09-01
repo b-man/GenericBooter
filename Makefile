@@ -7,7 +7,7 @@ OBJECTS		= start.o printf.o bcopy.o bzero.o libc_stub.o tlsf.o \
 	device_tree.o xml.o mach.o xmdt.o strcmp.o strchr.o strncmp.o strlen.o \
 	malloc.o main.o debug.o bootx.o image3.o macho_loader.o memory_region.o \
 	json_parser.o semihost.o
-CFLAGS		= -mcpu=$(MACHINE_CPU) -std=c99 -fno-builtin -Os -fPIC -Wall -Werror -Wno-error=multichar
+CFLAGS		= -mcpu=$(MACHINE_CPU) -std=c99 -fno-builtin -Os -fPIC -Wall -Werror -Wno-error=multichar -Wno-multichar
 CPPFLAGS	= -Iinclude -D__LITTLE_ENDIAN__ -DTEXT_BASE=$(TEXT_BASE) -DBUILD_STYLE=\"$(BUILD_STYLE)\" \
 		  -DBUILD_TAG=\"$(BUILD_TAG)\" -DPLATFORM=\"$(PLATFORM)\" -DMACHINE_ID=$(MACHINE_ID)
 ASFLAGS		= -mcpu=$(MACHINE_CPU) -DTEXT_BASE=$(TEXT_BASE) -D__ASSEMBLY__

@@ -47,7 +47,7 @@ void debug_putchar(int c)
     if (c == '\n')
         debug_putchar('\r');
 
-    _semihost_write_char(c);
+    _semihost_write_char((char)c);
 }
 
 /**
