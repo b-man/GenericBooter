@@ -8,3 +8,5 @@ Sample booter for XNU
 - Mach kernel should be in image3 form as 'mach.img3', type is 'krnl', just have DATA and TYPE
   in the Image3 file.
 - This bootloader isn't perfect.
+- To boot this bootloader:
+  qemu-system-arm -M realview-pb-a8 -m 512 -serial stdio -kernel SampleBooter.elf.uImage -semihosting
