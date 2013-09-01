@@ -73,7 +73,7 @@
 
 #define EnterThumb_NoAlign(function)    \
     .code 16                        ;   \
-    .thumb_func _ ##function        ;   \
+    .thumb_func                     ;   \
     .globl _ ##function             ;   \
     _##function:                    ;   \
 
